@@ -39,7 +39,7 @@ link_directories(${KinectSDK_LIB})
 add_definitions(${PCL_DEFINITIONS})
 
 file(GLOB_RECURSE PCL_KinectKinfu_HEADERS include/*.h)
-file(GLOB_RECURSE PCL_KinectKinfu_SOURCES src/*.cpp)
+file(GLOB_RECURSE PCL_KinectKinfu_SOURCES src/Kinfu_LargeScaleApp/*.cpp)
 set (PCL_KinectKinfu_INCLUDE_DIRS "")
 foreach (_headerFile ${PCL_KinectKinfu_HEADERS})
     get_filename_component(_dir ${_headerFile} PATH)
