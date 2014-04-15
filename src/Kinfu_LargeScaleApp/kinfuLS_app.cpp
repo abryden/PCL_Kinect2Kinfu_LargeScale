@@ -67,14 +67,18 @@ Work in progress: patch by Marco (AUG,19th 2012)
 #include <pcl/io/ply_io.h>
 #include <pcl/io/vtk_io.h>
 #include <pcl/io/openni_grabber.h>
-#include <pcl/io/oni_grabber.h>
+//#include <pcl/io/oni_grabber.h>
 #include <pcl/io/pcd_grabber.h>
 
-#include "openni_capture.h"
+//#include "openni_capture.h"
 #include "color_handler.h"
 #include "evaluation.h"
 
 #include <pcl/common/angles.h>
+
+#include "tsdf_volume.h"
+#include "tsdf_volume.hpp"
+#include "Microsoft_grabber2.h"
 
 #ifdef HAVE_OPENCV  
 #include <opencv2/highgui/highgui.hpp>
@@ -1290,16 +1294,13 @@ main (int argc, char* argv[])
   std::string eval_folder, match_file, openni_device, oni_file, pcd_dir;
   try
   {    
-    if (pc::parse_argument (argc, argv, "-dev", openni_device) > 0)
+
+     if (pc::parse_argument (argc, argv, "-dev", openni_device) > 0)
     {
-      capture.reset (new pcl::OpenNIGrabber (openni_device));
+      capture.reset (new pcl::Microsoft2Grabber ());
     }
-    else if (pc::parse_argument (argc, argv, "-oni", oni_file) > 0)
-    {
-      triggered_capture = true;
-      bool repeat = false; // Only run ONI file once
-      capture.reset (new pcl::ONIGrabber (oni_file, repeat, !triggered_capture));
-    }
+
+    
     else if (pc::parse_argument (argc, argv, "-pcd", pcd_dir) > 0)
     {
       float fps_pcd = 15.0f;
@@ -1319,13 +1320,8 @@ main (int argc, char* argv[])
     }
     else
     {
-      capture.reset( new pcl::OpenNIGrabber() );
+      capture.reset( new pcl::Microsoft2Grabber() );
 
-      //capture.reset( new pcl::ONIGrabber("d:/onis/20111013-224932.oni", true, true) );
-      //capture.reset( new pcl::ONIGrabber("d:/onis/reg20111229-180846.oni, true, true) );    
-      //capture.reset( new pcl::ONIGrabber("/media/Main/onis/20111013-224932.oni", true, true) );
-      //capture.reset( new pcl::ONIGrabber("d:/onis/20111013-224551.oni", true, true) );
-      //capture.reset( new pcl::ONIGrabber("d:/onis/20111013-224719.oni", true, true) );    
     }
   }
   catch (const pcl::PCLException& /*e*/) { return cout << "Can't open depth source" << endl, -1; }
