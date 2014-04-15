@@ -887,7 +887,34 @@ struct KinFuLSApp
     
   }
 
-  void source_cb1(const boost::shared_ptr<openni_wrapper::DepthImage>& depth_wrapper)  
+  inline void copy_depthRaw(const pcl::MatDepth &src, std::vector<unsigned short> &dst) {
+    cv::Mat_<unsigned short>::const_iterator pI = src.begin<unsigned short>();
+    std::vector<unsigned short>::iterator pO = dst.begin();
+    while(pO != dst.end()) {
+      *pO = (unsigned short)(*pI);
+      ++pO; ++pI;
+    }
+  }
+
+  void source_cb1_device(const pcl::MatDepth& depth_wrapper) {
+    {
+      boost::mutex::scoped_try_lock lock(data_ready_mutex_);
+      if (exit_ || !lock)
+          return;
+      
+      depth_.cols = depth_wrapper.cols;
+      depth_.rows = depth_wrapper.rows;
+      depth_.step = depth_.cols * depth_.elemSize();
+
+      source_depth_data_.resize(depth_.cols * depth_.rows);
+      //depth_wrapper->fillDepthImageRaw(depth_.cols, depth_.rows, &source_depth_data_[0]);
+      copy_depthRaw(depth_wrapper,source_depth_data_);
+      depth_.data = &source_depth_data_[0];     
+    }
+    data_ready_cond_.notify_one();
+  }
+  // take out all openni callbacks
+  /*void source_cb1(const boost::shared_ptr<openni_wrapper::DepthImage>& depth_wrapper)  
   {        
     {
       boost::mutex::scoped_try_lock lock(data_ready_mutex_);
@@ -972,7 +999,7 @@ struct KinFuLSApp
       depth_.data = &source_depth_data_[0];      
     }	
     data_ready_cond_.notify_one();
-  }
+  }*/
 
   void
   startMainLoop (bool triggered_capture)
