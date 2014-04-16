@@ -77,7 +77,7 @@ Work in progress: patch by Marco (AUG,19th 2012)
 #include <pcl/common/angles.h>
 
 #include "tsdf_volume.h"
-#include "tsdf_volume.hpp"
+//#include "tsdf_volume.hpp"
 #include "Microsoft_grabber2.h"
 
 #ifdef HAVE_OPENCV  
@@ -1008,7 +1008,7 @@ struct KinFuLSApp
   void
   startMainLoop (bool triggered_capture)
   {   
-    using namespace openni_wrapper;
+//    using namespace openni_wrapper;
     typedef boost::shared_ptr<DepthImage> DepthImagePtr;
     typedef boost::shared_ptr<Image>      ImagePtr;
 
