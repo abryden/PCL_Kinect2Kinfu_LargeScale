@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 
-project(PCL_KinectKinfu)
+project(PCL_KinectKinfu_LargeScale)
 
 SET_PROPERTY(GLOBAL PROPERTY TARGET_SUPPORTS_SHARED_LIBS TRUE)
 
@@ -38,16 +38,16 @@ link_directories(${KinectSDK_LIB})
 
 add_definitions(${PCL_DEFINITIONS})
 
-file(GLOB_RECURSE PCL_KinectKinfu_HEADERS include/*.h)
-file(GLOB_RECURSE PCL_KinectKinfu_SOURCES src/Kinfu_LargeScaleApp/*.cpp)
-set (PCL_KinectKinfu_INCLUDE_DIRS "")
-foreach (_headerFile ${PCL_KinectKinfu_HEADERS})
+file(GLOB_RECURSE PCL_KinectKinfu_LargeScale_HEADERS include/*.h)
+file(GLOB_RECURSE PCL_KinectKinfu_LargeScale_SOURCES src/Kinfu_LargeScaleApp/*.cpp)
+set (PCL_KinectKinfu_LargeScale_INCLUDE_DIRS "")
+foreach (_headerFile ${PCL_KinectKinfu_LargeScale_HEADERS})
     get_filename_component(_dir ${_headerFile} PATH)
-    list (APPEND PCL_KinectKinfu_INCLUDE_DIRS ${_dir})
+    list (APPEND PCL_KinectKinfu_LargeScale_INCLUDE_DIRS ${_dir})
 endforeach()
-list(REMOVE_DUPLICATES PCL_KinectKinfu_INCLUDE_DIRS)
+list(REMOVE_DUPLICATES PCL_KinectKinfu_LargeScale_INCLUDE_DIRS)
 
-include_directories(${PCL_KinectKinfu_INCLUDE_DIRS})
+include_directories(${PCL_KinectKinfu_LargeScale_INCLUDE_DIRS})
 
-add_executable (PCL_KinectKinfu ${PCL_KinectKinfu_SOURCES} ${PCL_KinectKinfu_HEADERS})
-target_link_libraries (PCL_KinectKinfu ${CUDA_CUDA_LIBRARY} ${CUDA_CUDART_LIBRARY} ${PCL_LIBRARIES} ${OpenCV_LIBS} Kinect20.lib debug Debug/PCL_Kinect2SDK optimized Release/PCL_Kinect2SDK)
+add_executable (PCL_KinectKinfu_LargeScale ${PCL_KinectKinfu_LargeScale_SOURCES} ${PCL_KinectKinfu_LargeScale_HEADERS})
+target_link_libraries (PCL_KinectKinfu_LargeScale ${CUDA_CUDA_LIBRARY} ${CUDA_CUDART_LIBRARY} ${PCL_LIBRARIES} ${OpenCV_LIBS} Kinect20.lib debug Debug/PCL_Kinect2SDK optimized Release/PCL_Kinect2SDK)
