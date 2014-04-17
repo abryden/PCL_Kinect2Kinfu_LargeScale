@@ -76,8 +76,7 @@ Work in progress: patch by Marco (AUG,19th 2012)
 
 #include <pcl/common/angles.h>
 
-#include "tsdf_volume.h"
-//#include "tsdf_volume.hpp"
+
 #include "Microsoft_grabber2.h"
 
 #ifdef HAVE_OPENCV  
