@@ -766,7 +766,8 @@ struct KinFuLSApp
   void
   initRegistration ()
   {        
-    registration_ = capture_.providesCallback<pcl::ONIGrabber::sig_cb_openni_image_depth_image> ();
+	//currently don't know how to address this
+    registration_ = false; //capture_.providesCallback<pcl::ONIGrabber::sig_cb_openni_image_depth_image> ();
     cout << "Registration mode: " << (registration_ ? "On" : "Off (not supported by source)") << endl;
   }
 
@@ -1348,14 +1349,16 @@ main (int argc, char* argv[])
   if (pc::find_switch (argc, argv, "--save-views") || pc::find_switch (argc, argv, "-sv"))
     app.image_view_.accumulate_views_ = true;  //will cause bad alloc after some time  
 
-  if (pc::find_switch (argc, argv, "--registration") || pc::find_switch (argc, argv, "-r"))  {
-    if (pcd_input) {
-      app.pcd_source_   = true;
-      app.registration_ = true; // since pcd provides registered rgbd
-    } else {
-      app.initRegistration();
-    }
-  }
+
+  //does the K4W provice registered rgbd in this context?
+  //if (pc::find_switch (argc, argv, "--registration") || pc::find_switch (argc, argv, "-r"))  {
+  //  if (pcd_input) {
+  //    app.pcd_source_   = true;
+  //    app.registration_ = true; // since pcd provides registered rgbd
+  //  } else {
+  //    app.initRegistration();
+  //  }
+  //}
 
   if (pc::find_switch (argc, argv, "--integrate-colors") || pc::find_switch (argc, argv, "-ic"))      
     app.toggleColorIntegration();
