@@ -55,7 +55,7 @@ target_link_libraries (PCL_KinectKinfu_LargeScale ${CUDA_CUDA_LIBRARY} ${CUDA_CU
 
 
 file(GLOB_RECURSE PCL_KinectKinfu_LargeScale_Output_HEADERS include/*.h)
-file(GLOB_RECURSE PCL_KinectKinfu_LargeScale_Output_SOURCES src/Kinfu_LargeScaleApp/*.cpp)
+file(GLOB_RECURSE PCL_KinectKinfu_LargeScale_Output_SOURCES src/Standalone_Mesh/*.cpp)
 set (PCL_KinectKinfu_LargeScale_Output_INCLUDE_DIRS "")
 foreach (_headerFile ${PCL_KinectKinfu_LargeScale_Output_HEADERS})
     get_filename_component(_dir ${_headerFile} PATH)
