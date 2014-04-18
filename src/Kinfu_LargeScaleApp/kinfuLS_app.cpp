@@ -914,10 +914,21 @@ struct KinFuLSApp
   inline void copy_depthRaw(const pcl::MatDepth &src, std::vector<unsigned short> &dst) {
     cv::Mat_<unsigned short>::const_iterator pI = src.begin<unsigned short>();
     std::vector<unsigned short>::iterator pO = dst.begin();
-    while(pO != dst.end()) {
+    /*while(pO != dst.end()) {
       *pO = (unsigned short)(*pI);
       ++pO; ++pI;
-    }
+    }*/
+	for(auto j = 0; j < 424; j++) {
+		pI = pI + 512;
+		for(auto i = 0; i < 512; i++ ) {
+			pI--;
+			*pO = (unsigned short)(*pI);
+			 ++pO;
+
+
+		}
+		pI = pI + 512;
+	}
   }
 
   void source_cb1_device(const pcl::MatDepth& depth_wrapper) {
