@@ -781,6 +781,26 @@ struct KinFuLSApp
       integrate_colors_ = true;      
     }    
     cout << "Color integration: " << (integrate_colors_ ? "On" : "Off ( requires registration mode )") << endl;
+	
+  }
+
+  void
+  setDepthIntrinsics(std::vector<float> depth_intrinsics)
+  {
+    float fx = depth_intrinsics[0];
+    float fy = depth_intrinsics[1];
+    
+    if (depth_intrinsics.size() == 4)
+    {
+        float cx = depth_intrinsics[2];
+        float cy = depth_intrinsics[3];
+        kinfu_->setDepthIntrinsics(fx, fy, cx, cy);
+        cout << "Depth intrinsics changed to fx="<< fx << " fy=" << fy << " cx=" << cx << " cy=" << cy << endl;
+    }
+    else {
+        kinfu_->setDepthIntrinsics(fx, fy);
+        cout << "Depth intrinsics changed to fx="<< fx << " fy=" << fy << endl;
+    }
   }
 
   void
@@ -1344,6 +1364,20 @@ main (int argc, char* argv[])
   pc::parse_argument (argc, argv, "-sr", snapshot_rate);
 
   KinFuLSApp app (*capture, volume_size, shift_distance, snapshot_rate);
+
+
+  //default intrinsics
+  //I'm not quite certain on why this is needed in both files.
+  std::vector<float> depthIntrins;
+  depthIntrins.push_back(364.5731);
+  depthIntrins.push_back(364.5731);
+  depthIntrins.push_back(256.6805);
+  depthIntrins.push_back(201.0916);
+
+  
+  app.setDepthIntrinsics(depthIntrins);
+
+
 
   if (pc::parse_argument (argc, argv, "-eval", eval_folder) > 0)
     app.toggleEvaluationMode(eval_folder, match_file);
