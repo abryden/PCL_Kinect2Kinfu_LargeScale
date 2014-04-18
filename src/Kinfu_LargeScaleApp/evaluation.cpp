@@ -41,11 +41,11 @@
 using namespace pcl::gpu;
 using namespace std;
 
-const float Evaluation::fx = 525.0f;
-const float Evaluation::fy = 525.0f;
-const float Evaluation::cx = 319.5f;
-const float Evaluation::cy = 239.5f;
-
+//these intrinsics changed to match K4W V2
+const float Evaluation::fx = 364.5731f;
+const float Evaluation::fy = 364.5731f;
+const float Evaluation::cx = 256.6805f;
+const float Evaluation::cy = 201.0916f;
 #ifndef HAVE_OPENCV
 
 struct Evaluation::Impl {};
