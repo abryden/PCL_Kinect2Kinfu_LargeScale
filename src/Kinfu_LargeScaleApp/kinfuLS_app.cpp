@@ -948,6 +948,34 @@ struct KinFuLSApp
     }
     data_ready_cond_.notify_one();
   }
+
+   void source_cb2_device(const boost::shared_ptr<const cv::Mat>& image_wrapper, const pcl::MatDepth& depth_wrapper, float)
+  {
+    {
+      boost::mutex::scoped_try_lock lock(data_ready_mutex_);
+      if (exit_ || !lock)
+          return;
+                  
+      depth_.cols = depth_wrapper.cols;
+      depth_.rows = depth_wrapper.rows;
+      depth_.step = depth_.cols * depth_.elemSize();
+
+      source_depth_data_.resize(depth_.cols * depth_.rows);
+      //depth_wrapper->fillDepthImageRaw(depth_.cols, depth_.rows, &source_depth_data_[0]);
+	  memcpy(&source_depth_data_[0],depth_wrapper.data,depth_.cols * depth_.rows);
+      depth_.data = &source_depth_data_[0];      
+      
+      rgb24_.cols = image_wrapper->cols;
+      rgb24_.rows = image_wrapper->rows;
+      rgb24_.step = rgb24_.cols * rgb24_.elemSize(); 
+
+      source_image_data_.resize(rgb24_.cols * rgb24_.rows);
+      //image_wrapper->fillRGB(rgb24_.cols, rgb24_.rows, (unsigned char*)&source_image_data_[0]);
+	  memcpy(&source_depth_data_[0],image_wrapper->data,rgb24_.cols * rgb24_.rows);
+      rgb24_.data = &source_image_data_[0];           
+    }
+    data_ready_cond_.notify_one();
+  }
   // take out all openni callbacks
   /*void source_cb1(const boost::shared_ptr<openni_wrapper::DepthImage>& depth_wrapper)  
   {        
