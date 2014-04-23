@@ -971,7 +971,7 @@ struct KinFuLSApp
 
       source_image_data_.resize(rgb24_.cols * rgb24_.rows);
       //image_wrapper->fillRGB(rgb24_.cols, rgb24_.rows, (unsigned char*)&source_image_data_[0]);
-	  memcpy(&source_depth_data_[0],image_wrapper->data,rgb24_.cols * rgb24_.rows);
+	  memcpy(&source_image_data_[0],image_wrapper->data,rgb24_.cols * rgb24_.rows);
       rgb24_.data = &source_image_data_[0];           
     }
     data_ready_cond_.notify_one();
@@ -1075,6 +1075,9 @@ struct KinFuLSApp
     //boost::function<void (const ImagePtr&, const DepthImagePtr&, float constant)> func1 = boost::bind (&KinFuLSApp::source_cb2, this, _1, _2, _3);
     boost::function<void (const DepthImagePtr&)> func2 = boost::bind (&KinFuLSApp::source_cb1_device, this, _1);
   //  boost::function<void (const pcl::PointCloud<pcl::PointXYZRGBA>::ConstPtr&) > func3 = boost::bind (&KinFuLSApp::source_cb3, this, _1);
+
+	boost::function<void (const ImagePtr&, const DepthImagePtr&, float constant)> func1_dev = boost::bind (&KinFuLSApp::source_cb2_device, this, _1, _2, _3);
+	integrate_colors_ = false;
 
     bool need_colors = integrate_colors_ || registration_ || enable_texture_extraction_;
 
